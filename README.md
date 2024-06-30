@@ -12,6 +12,7 @@ SpeedtestTrackerBot is a Discord bot that interacts with the Speedtest Tracker A
 - [Node.js](https://nodejs.org/)
 - [Discord Bot](https://discord.com/developers/applications)
 - [Discord Account ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID#h_01HRSTXPS5H5D7JBY2QKKPVKNA)
+- A system running an instance of [SpeedTest Tracker](https://github.com/alexjustesen/speedtest-tracker)
 - Speedtest Tracker URL and port
 
 ## Installation
