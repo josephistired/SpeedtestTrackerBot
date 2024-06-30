@@ -37,6 +37,7 @@
     "ascii-table": "^0.0.9",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
+    "glob": "^10.4.2",
     "superagent": "^9.0.2"
   }
 }
