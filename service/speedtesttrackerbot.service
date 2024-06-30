@@ -1,0 +1,28 @@
+[Unit]
+Description=SpeedtestTrackerBot Service
+
+# Service is started after network has been initalized.
+After=network.target
+
+[Service]
+
+## The command to start the service. Replace with the actual path to your bot's main file.
+ExecStart=/usr/bin/node /path/to/your/project/bot.js 
+
+# The working directory for the service. Replace with the actual path to your project directory.
+WorkingDirectory=/path/to/your/project
+Restart=always
+
+# Load the environment file. Replace with the actual path to your env file.
+EnvironmentFile=/path/to/your/.env
+
+# The user under which the service should run. Replace 'pi' with the appropriate username.
+User=pi
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+
+StandardOutput=append:/var/log/speedtesttrackerbot.log
+StandardError=append:/var/log/speedtesttrackerbot.log
+
+[Install]
+WantedBy=multi-user.target
