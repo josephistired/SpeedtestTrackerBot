@@ -7,14 +7,17 @@ After=network.target
 [Service]
 
 ## The command to start the service. Replace with the actual path to your bot's main file.
-ExecStart=/usr/bin/node /path/to/your/project/bot.js 
+ExecStart=/usr/bin/node /path/to/your/project/index.js
 
 # The working directory for the service. Replace with the actual path to your project directory.
 WorkingDirectory=/path/to/your/project
 Restart=always
 
-# Load the environment file. Replace with the actual path to your env file.
-EnvironmentFile=/path/to/your/.env
+# Load the environment variables. Replace with the actual values.
+Environment="DISCORD_TOKEN=your_discord_bot_token"
+Environment="DISCORD_ID=your_discord_account_id"
+Environment="SERVER_IP=your_server_ip"
+Environment="SERVER_PORT=your_server_port"
 
 # The user under which the service should run. Replace 'pi' with the appropriate username.
 User=pi
