@@ -56,6 +56,7 @@ Here's the cool setup! I have this bot running as a service on my Raspberry Pi. 
    - Line 10; replace /path/to/your/project with the actual path to your bot's main file.
    - Line 13: replace /path/to/your/project with the actual path to your project directory.
    - Lines 17, 18, 19, 20: Replace everything inside quotes with their respective values.
+   - Lines 23: Make sure to replace with the correct user.
 
 3. Reload systemd to apply changes:
 
