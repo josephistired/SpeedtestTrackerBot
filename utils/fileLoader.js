@@ -1,4 +1,4 @@
-GNU nano 5.4                                    fileLoader.js                                              
+                                        
 const fs = require('fs');
 const path = require('path');
 
