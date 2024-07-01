@@ -1,0 +1,36 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: josephistired/speedtesttrackerbot:latest
+
+    - name: Verify Docker image
+      run: docker run --rm \
+        -e DISCORD_TOKEN=dummy_token \
+        -e DISCORD_ID=dummy_id \
+        -e SERVER_IP=127.0.0.1 \
+        -e SERVER_PORT=8080 \
+        josephistired/speedtesttrackerbot:latest node -v
