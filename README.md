@@ -71,6 +71,34 @@ Here's the cool setup! I have this bot running as a service on my Raspberry Pi. 
 
 5. The bot should now be running as long as you followed the steps correctly (:
 
+## Docker 🐋
+
+You can run SpeedtestTrackerBot using Docker. Replace the placeholder values with your actual configuration.
+
+- Option 1 - Docker Command
+
+      docker run -d --name speedtesttrackerbot \
+        -e DISCORD_TOKEN=your_discord_bot_token \
+        -e DISCORD_ID=your_discord_account_id \
+        -e SERVER_IP=your_server_ip \
+        -e SERVER_PORT=your_server_port \
+        josephistired/speedtesttrackerbot:latest
+
+- Option 2 - docker-compose file.
+
+      version: '3.8'
+      
+      services:
+        speedtesttrackerbot:
+          image: josephistired/speedtesttrackerbot:latest
+          container_name: speedtesttrackerbot
+          environment:
+            - DISCORD_TOKEN=your_discord_bot_token
+            - DISCORD_ID=your_discord_account_id
+            - SERVER_IP=your_server_ip
+            - SERVER_PORT=your_server_port
+          restart: always
+
 ## Usage 
 
 Use the following commands in your Discord Server to interact with this bot:
