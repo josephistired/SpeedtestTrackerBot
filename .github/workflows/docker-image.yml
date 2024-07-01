@@ -24,8 +24,9 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         context: .
+        platforms: linux/amd64,linux/arm64
         push: true
-        tags: josephistired/speedtesttrackerbot:latest
+        tags: your_dockerhub_username/speedtesttrackerbot:latest
 
     - name: Verify Docker image
       run: |
