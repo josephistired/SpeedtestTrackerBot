@@ -1,6 +1,6 @@
 # SpeedtestTrackerBot 🚄
 
-SpeedtestTrackerBot is a Discord bot that interacts with the Speedtest Tracker API to provide various network performance metrics. This bot is designed to be run locally by the user.
+SpeedtestTrackerBot is a Discord bot that interacts with the [Speedtest Tracker](https://github.com/alexjustesen/speedtest-tracker), and it's API to provide various network performance metrics. This bot is designed to be run locally by the user.
 
 ## Features
 
