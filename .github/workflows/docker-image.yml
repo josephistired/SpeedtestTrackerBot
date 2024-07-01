@@ -28,9 +28,10 @@ jobs:
         tags: josephistired/speedtesttrackerbot:latest
 
     - name: Verify Docker image
-      run: docker run --rm \
-        -e DISCORD_TOKEN=dummy_token \
-        -e DISCORD_ID=dummy_id \
-        -e SERVER_IP=127.0.0.1 \
-        -e SERVER_PORT=8080 \
-        josephistired/speedtesttrackerbot:latest node -v
+      run: |
+        docker run --rm \
+          -e DISCORD_TOKEN=dummy_token \
+          -e DISCORD_ID=dummy_id \
+          -e SERVER_IP=127.0.0.1 \
+          -e SERVER_PORT=8080 \
+          josephistired/speedtesttrackerbot:latest node -v
