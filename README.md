@@ -4,7 +4,8 @@ SpeedtestTrackerBot is a Discord bot that interacts with the [Speedtest Tracker]
 
 ## Features
 
-- **Health Check**: Check if Speedtest Tracker is running.
+- **Get Result**: Able to get a speedtestresult based on it's ID.
+- **List result**: Able to list all speedtest results. **Able to sort, coming soon**™️
 - **Latest Speedtest Results**: Get the latest speedtest results.
 
 ## Prerequisites
@@ -14,6 +15,7 @@ SpeedtestTrackerBot is a Discord bot that interacts with the [Speedtest Tracker]
 - [Discord Account ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID#h_01HRSTXPS5H5D7JBY2QKKPVKNA)
 - A system running an instance of [SpeedTest Tracker](https://github.com/alexjustesen/speedtest-tracker)
 - Speedtest Tracker URL and port
+- A Bearer Token which can be generated at yourlocalistance/admin/api-tokens
 
 ## Installation
 
@@ -35,6 +37,7 @@ This bot was originally created to run on a Raspberry Pi that hosts my SpeedTrac
 1. Create a .env file in the root directory and add your Discord bot token, Discord account ID and Speedtest Tracker details:
 
    ```env
+   BEARER_TOKEN=your_bearer_token
    DISCORD_TOKEN=your_discord_bot_token
    DISCORD_ID=your_discord_account_id
    SERVER_IP=your_server_ip
@@ -55,7 +58,7 @@ Here's the cool setup! I have this bot running as a service on my Raspberry Pi. 
 
    - Line 10; replace /path/to/your/project with the actual path to your bot's main file.
    - Line 13: replace /path/to/your/project with the actual path to your project directory.
-   - Lines 17, 18, 19, 20: Replace everything inside quotes with their respective values.
+   - Lines 17, 18, 19, 20, 21: Replace everything inside quotes with their respective values.
    - Lines 23: Make sure to replace with the correct user.
 
 3. Reload systemd to apply changes:
@@ -78,6 +81,7 @@ You can run SpeedtestTrackerBot using Docker. Replace the placeholder values wit
 - Option 1 - Docker Command
 
       docker run -d --name speedtesttrackerbot \
+        -e BEARER_TOKEN=your_bearer_token
         -e DISCORD_TOKEN=your_discord_bot_token \
         -e DISCORD_ID=your_discord_account_id \
         -e SERVER_IP=your_server_ip \
@@ -93,6 +97,7 @@ You can run SpeedtestTrackerBot using Docker. Replace the placeholder values wit
           image: josephistired/speedtesttrackerbot:latest
           container_name: speedtesttrackerbot
           environment:
+            - BEARER_TOKEN=your_bearer_token
             - DISCORD_TOKEN=your_discord_bot_token
             - DISCORD_ID=your_discord_account_id
             - SERVER_IP=your_server_ip
@@ -108,7 +113,7 @@ Use the following commands in your Discord Server to interact with this bot:
 
 ## Planned Updates
 
-I plan on updating this bot with new features once the owner of SpeedTest Tracker adds more routes to the API. According to the [project's Github](https://github.com/alexjustesen/speedtest-tracker), a rewrite is coming very soon (:
+Thankfully, [V1](https://docs.speedtest-tracker.dev/api/v1) of the API for Speedtest Tracker has been released! I plan on updating this bot with new features once the owner of SpeedTest Tracker adds more routes to the API.
 
 ## Contributing
 If you would like to contribute, please fork the repository and use a feature branch. Pull requests are welcome.

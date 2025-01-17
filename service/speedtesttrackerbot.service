@@ -14,6 +14,7 @@ WorkingDirectory=/path/to/your/project
 Restart=always
 
 # Load the environment variables. Replace with the actual values.
+Environment="BEARER_TOKEN=your_bearer_token"
 Environment="DISCORD_TOKEN=your_discord_bot_token"
 Environment="DISCORD_ID=your_discord_account_id"
 Environment="SERVER_IP=your_server_ip"
