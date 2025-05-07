@@ -12,39 +12,36 @@ const { handleFailedResult } = require("../../functions/handleFailedResult");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("latest")
-    .setDescription("Get the latest speedtest result."),
+    .setName("result")
+    .setDescription("View a speedtest result based on its ID.")
+    .addStringOption((option) =>
+      option
+        .setName("id")
+        .setDescription("Provide the ID of the speedtest result")
+        .setRequired(true)
+    ),
+
   /**
    * @param {ChatInputCommandInteraction} interaction
    */
   async execute(interaction) {
+    const result_ID = interaction.options.getString("id");
     const attachment = new AttachmentBuilder("assets/speedtest.png");
 
     try {
       const response = await superagent
-        .get(endpoints.getLatest())
+        .get(endpoints.getResultById(result_ID))
         .set("Authorization", `Bearer ${process.env.API_TOKEN}`)
         .set("Accept", "application/json");
 
-      const data = response.body?.data;
-      if (!data) {
-        return errorSend(
-          {
-            user: `${interaction.user.tag}`,
-            command: `${interaction.commandName}`,
-            time: `${Math.floor(Date.now() / 1000)}`,
-            error: "No speedtest data found in response.",
-          },
-          interaction
-        );
-      }
+      const data = response.body.data;
 
       if (data.status === "failed") {
         return handleFailedResult(data, interaction);
-      } 
+      }
 
       const embed = new EmbedBuilder()
-        .setTitle("Latest Speedtest Result")
+        .setTitle(`Speedtest Result ID: ${data.id}`)
         .setColor("White")
         .setTimestamp()
         .setThumbnail("attachment://speedtest.png")
@@ -84,15 +81,27 @@ module.exports = {
             inline: true,
           }
         )
-        .setURL(data.data.result.url)
-        .setFooter({ text: `Speedtest ID: ${data.id}` });
+        .setFooter({ text: `Speedtest ID: ${data.id}` })
+        .setURL(data.data?.result?.url);
 
-      interaction.reply({
+      return interaction.reply({
         embeds: [embed],
         files: [attachment],
         flags: MessageFlags.Ephemeral,
       });
     } catch (err) {
+      if (err.status === 404) {
+        return errorSend(
+          {
+            user: `${interaction.user.tag}`,
+            command: `${interaction.commandName}`,
+            time: `${Math.floor(Date.now() / 1000)}`,
+            error: `No result found for ID: ${result_ID}`,
+          },
+          interaction
+        );
+      }
+
       return errorSend(
         {
           user: `${interaction.user.tag}`,

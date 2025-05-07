@@ -2,10 +2,11 @@ const {
   ChatInputCommandInteraction,
   PermissionFlagsBits,
   Collection,
+  MessageFlags,
 } = require("discord.js");
 
-// Correct import path
 const { errorSend } = require("../../functions/error");
+const { cooldownSend } = require("../../functions/cooldown");
 
 module.exports = {
   name: "interactionCreate",
@@ -88,7 +89,7 @@ module.exports = {
         if (!subCommandFile)
           return interaction.reply({
             content: "💤 Command Is Outdated.",
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           });
         subCommandFile.execute(interaction, client);
       } else command.execute(interaction, client);

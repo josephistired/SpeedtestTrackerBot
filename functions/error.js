@@ -1,4 +1,4 @@
-const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
+const { EmbedBuilder, AttachmentBuilder, MessageFlags } = require("discord.js");
 
 async function errorSend({ user, command, time, error }, interaction) {
   const attachment = new AttachmentBuilder("assets/error.png");
@@ -23,7 +23,7 @@ async function errorSend({ user, command, time, error }, interaction) {
   await interaction.reply({
     embeds: [errorEmbed],
     files: [attachment],
-    ephemeral: true,
+    flags: MessageFlags.Ephemeral
   });
 }
 

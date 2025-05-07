@@ -4,7 +4,8 @@
   "description": "SpeedtestTrackerBot is a locally-run Discord bot designed to interact with the Speedtest Tracker API.",
   "main": "./src/index.js",
   "scripts": {
-    "test": "nodemon"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
@@ -35,8 +36,9 @@
   "homepage": "https://github.com/josephistired/SpeedtestTrackerBot#readme",
   "dependencies": {
     "ascii-table": "^0.0.9",
-    "discord.js": "^14.15.3",
-    "dotenv": "^16.4.5",
-    "superagent": "^10.0.0"
+    "discord.js": "^14.19.3",
+    "dotenv": "^16.5.0",
+    "pagination.djs": "^4.0.18",
+    "superagent": "^10.2.1"
   }
 }
