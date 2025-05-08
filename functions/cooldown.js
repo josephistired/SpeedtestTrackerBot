@@ -1,6 +1,6 @@
-const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
+const { EmbedBuilder, AttachmentBuilder, MessageFlags} = require("discord.js");
 
-async function cooldown({ user, command, time, left }, interaction) {
+async function cooldownSend({ user, command, time, left }, interaction) {
   const attachment = new AttachmentBuilder("assets/cooldown.png");
 
   const errorEmbed = new EmbedBuilder()
@@ -33,8 +33,8 @@ async function cooldown({ user, command, time, left }, interaction) {
   await interaction.reply({
     embeds: [errorEmbed],
     files: [attachment],
-    ephemeral: true,
+    flags: MessageFlags.Ephemeral
   });
 }
 
-module.exports = { cooldown };
+module.exports = { cooldownSend };

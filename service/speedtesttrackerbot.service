@@ -1,31 +1,22 @@
 [Unit]
 Description=SpeedtestTrackerBot Service
-
-# Service is started after network has been initalized.
 After=network.target
 
 [Service]
+Type=simple
 
-## The command to start the service. Replace with the actual path to your bot's main file.
-ExecStart=/usr/bin/node /path/to/your/project/index.js
+User=pi # The user under which the service should run. Replace 'pi' with the appropriate username.
 
-# The working directory for the service. Replace with the actual path to your project directory.
-WorkingDirectory=/path/to/your/project
+WorkingDirectory=/path/to/your/project # The working directory for the service. Replace with the actual path to your project directory.
+
+EnvironmentFile=/path/to/your/project/.env # Loads the environment variables. Replace with the actual path to your environment variables.
+
+ExecStart=/usr/bin/node src/index.js
+
 Restart=always
-
-# Load the environment variables. Replace with the actual values.
-Environment="DISCORD_TOKEN=your_discord_bot_token"
-Environment="DISCORD_ID=your_discord_account_id"
-Environment="SERVER_IP=your_server_ip"
-Environment="SERVER_PORT=your_server_port"
-
-# The user under which the service should run. Replace 'pi' with the appropriate username.
-User=pi
-Environment=PATH=/usr/bin:/usr/local/bin
-Environment=NODE_ENV=production
-
-StandardOutput=append:/var/log/speedtesttrackerbot.log
-StandardError=append:/var/log/speedtesttrackerbot.log
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
 
 [Install]
 WantedBy=multi-user.target

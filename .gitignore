@@ -1,3 +1,4 @@
 node_modules/
 .env
 dockerdeploy.bat
+.example.data

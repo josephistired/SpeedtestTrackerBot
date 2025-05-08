@@ -1,11 +1,12 @@
 # SpeedtestTrackerBot 🚄
 
-SpeedtestTrackerBot is a Discord bot that interacts with the [Speedtest Tracker](https://github.com/alexjustesen/speedtest-tracker), and it's API to provide various network performance metrics. This bot is designed to be run locally by the user.
+SpeedtestTrackerBot is a local Discord bot that integrates with the [Speedtest Tracker API](https://github.com/alexjustesen/speedtest-tracker). It provides network performance insights directly in your server via slash commands.
 
 ## Features
 
-- **Health Check**: Check if Speedtest Tracker is running.
-- **Latest Speedtest Results**: Get the latest speedtest results.
+- **/latest** — Fetch and display the latest speedtest result.  
+- **/stats** — View aggregate statistics (average, min, max) for ping, download, and upload across all tests.  
+- **/result [id]** — Retrieve a single test result by its numeric ID.  
 
 ## Prerequisites
 
@@ -14,101 +15,98 @@ SpeedtestTrackerBot is a Discord bot that interacts with the [Speedtest Tracker]
 - [Discord Account ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID#h_01HRSTXPS5H5D7JBY2QKKPVKNA)
 - A system running an instance of [SpeedTest Tracker](https://github.com/alexjustesen/speedtest-tracker)
 - Speedtest Tracker URL and port
+- An API bearer token (generate under **/admin/api-tokens** in Speedtest Tracker)  
 
 ## Installation
 
-1. Clone the repository:
+1. **Clone the repo**  
 
    ```sh
    git clone https://github.com/josephistired/SpeedtestTrackerBot.git
    cd SpeedtestTrackerBot
 
-2. Install the dependencies:
+2. **Install dependencies**
 
    ```sh
    npm install
 
-## Windows 🪟
-  
-This bot was originally created to run on a Raspberry Pi that hosts my SpeedTracker instance, but it can also run on a Windows machine. Follow these steps to get the bot up and running on Windows.
-
-1. Create a .env file in the root directory and add your Discord bot token, Discord account ID and Speedtest Tracker details:
+3. Environment Variables
+   
+   Create a .env file in the project root with:
 
    ```env
+   # Discord bot settings
    DISCORD_TOKEN=your_discord_bot_token
-   DISCORD_ID=your_discord_account_id
-   SERVER_IP=your_server_ip
-   SERVER_PORT=your_server_port
+   DISCORD_ID=your_discord_application_id
 
-2. Simply run the bot.bat file located in the root directory!
+   # Speedtest Tracker API settings
+   SERVER_IP=your_speedtest_tracker_host_or_ip
+   SERVER_PORT=your_speedtest_tracker_port
+   API_TOKEN=your_speedtest_tracker_bearer_token
 
-## Raspberry Pi 🐧 | Running as a Service
+4. Start the bot
 
-Here's the cool setup! I have this bot running as a service on my Raspberry Pi. If you're a Raspberry Pi user, this should be a breeze (:
+- For production (no auto-reload):
+   
+      ```sh
+      npm start
 
-1. Copy the provided service file to the systemd directory:
+ - For development (auto-reload on changes):
 
-   ```sh
-   sudo cp service/speedtesttrackerbot.service /etc/systemd/system/speedtesttrackerbot.service
+      ```sh
+      npm run dev
 
-2. Edit the file at /etc/systemd/system/speedtesttrackerbot.service. 
+## Usage
+Once the bot is running and registered in your Discord server, use these slash commands:
 
-   - Line 10; replace /path/to/your/project with the actual path to your bot's main file.
-   - Line 13: replace /path/to/your/project with the actual path to your project directory.
-   - Lines 17, 18, 19, 20: Replace everything inside quotes with their respective values.
-   - Lines 23: Make sure to replace with the correct user.
+Command	Description
+/latest	Show the most recent speedtest, including ping, download, upload, jitter, packet loss, etc.
+/stats	View overall stats: average, min, max of ping, download, upload, and total test count.
+/result id	Retrieve details for a specific test by its ID.
 
-3. Reload systemd to apply changes:
+## Deployment Options
+
+# Docker
+Run via Docker:
+
+      ```sh
+      docker run -d \
+      --name speedtesttrackerbot \
+      -e DISCORD_TOKEN=your_discord_bot_token \
+      -e DISCORD_ID=your_discord_application_id \
+      -e SERVER_IP=your_speedtest_tracker_host_or_ip \
+      -e SERVER_PORT=your_speedtest_tracker_port \
+      -e API_TOKEN=your_speedtest_tracker_bearer_token \
+      josephistired/speedtesttrackerbot:latest
+      ```
+
+Or use a docker-compose.yml:
+
+      ```sh
+      version: '3.8'
+      services:
+      bot:
+         image: josephistired/speedtesttrackerbot:latest
+         environment:
+            - DISCORD_TOKEN=your_discord_bot_token
+            - DISCORD_ID=your_discord_application_id
+            - SERVER_IP=your_speedtest_tracker_host_or_ip
+            - SERVER_PORT=your_speedtest_tracker_port
+            - API_TOKEN=your_speedtest_tracker_bearer_token
+         restart: always
+      ```
+
+# Raspberry Pi / systemd Service
+
+1. Copy service/speedtesttrackerbot.service to /etc/systemd/system/
+
+2. Edit the service file, and replace the commented things.
+
+3. Reload and start:
 
    ```sh
    sudo systemctl daemon-reload
-
-4. Enable and start the service:
-
-   ```sh
-   sudo systemctl start speedtesttrackerbot
-   sudo systemctl enable speedtesttrackerbot
-
-5. The bot should now be running as long as you followed the steps correctly (:
-
-## Docker 🐋
-
-You can run SpeedtestTrackerBot using Docker. Replace the placeholder values with your actual configuration.
-
-- Option 1 - Docker Command
-
-      docker run -d --name speedtesttrackerbot \
-        -e DISCORD_TOKEN=your_discord_bot_token \
-        -e DISCORD_ID=your_discord_account_id \
-        -e SERVER_IP=your_server_ip \
-        -e SERVER_PORT=your_server_port \
-        josephistired/speedtesttrackerbot:latest
-
-- Option 2 - docker-compose file.
-
-      version: '3.8'
-      
-      services:
-        speedtesttrackerbot:
-          image: josephistired/speedtesttrackerbot:latest
-          container_name: speedtesttrackerbot
-          environment:
-            - DISCORD_TOKEN=your_discord_bot_token
-            - DISCORD_ID=your_discord_account_id
-            - SERVER_IP=your_server_ip
-            - SERVER_PORT=your_server_port
-          restart: always
-
-## Usage 
-
-Use the following commands in your Discord Server to interact with this bot:
-
-- /healthcheck: Check if Speedtest Tracker is running.
-- /latest: Get the latest speedtest results.
-
-## Planned Updates
-
-I plan on updating this bot with new features once the owner of SpeedTest Tracker adds more routes to the API. According to the [project's Github](https://github.com/alexjustesen/speedtest-tracker), a rewrite is coming very soon (:
+   sudo systemctl enable --now speedtesttrackerbot
 
 ## Contributing
-If you would like to contribute, please fork the repository and use a feature branch. Pull requests are welcome.
+Contributions, issues, and feature requests are welcome! Please open a GitHub issue or submit a pull request.
