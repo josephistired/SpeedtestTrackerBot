@@ -37,7 +37,7 @@ SpeedtestTrackerBot is a local Discord bot that integrates with the [Speedtest T
    ```env
    # Discord bot settings
    DISCORD_TOKEN=your_discord_bot_token
-   DISCORD_ID=your_discord_application_id
+   DISCORD_ID=your_discord_user_id
 
    # Speedtest Tracker API settings
    SERVER_IP=your_speedtest_tracker_host_or_ip
@@ -73,7 +73,7 @@ Run via Docker:
       docker run -d \
       --name speedtesttrackerbot \
       -e DISCORD_TOKEN=your_discord_bot_token \
-      -e DISCORD_ID=your_discord_application_id \
+      -e DISCORD_ID=your_discord_user_id \
       -e SERVER_IP=your_speedtest_tracker_host_or_ip \
       -e SERVER_PORT=your_speedtest_tracker_port \
       -e API_TOKEN=your_speedtest_tracker_bearer_token \
@@ -89,7 +89,7 @@ Or use a docker-compose.yml:
          image: josephistired/speedtesttrackerbot:latest
          environment:
             - DISCORD_TOKEN=your_discord_bot_token
-            - DISCORD_ID=your_discord_application_id
+            - DISCORD_ID=your_discord_user_id
             - SERVER_IP=your_speedtest_tracker_host_or_ip
             - SERVER_PORT=your_speedtest_tracker_port
             - API_TOKEN=your_speedtest_tracker_bearer_token
