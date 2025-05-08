@@ -100,7 +100,7 @@ Or use a docker-compose.yml:
 
 1. Copy service/speedtesttrackerbot.service to /etc/systemd/system/
 
-2. Edit paths and environment in the service file
+2. Edit the service file, and replace the commented things.
 
 3. Reload and start:
 

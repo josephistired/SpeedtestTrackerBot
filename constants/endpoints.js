@@ -4,7 +4,7 @@ module.exports = {
   endpoints: {
     getLatest: () => `${baseURL}/api/v1/results/latest`,
     getStats: () => `${baseURL}/api/v1/stats`,
-    getResults: () => `${baseURL}/api/v1/results`,
+    // getResults: () => `${baseURL}/api/v1/results`,
     getResultById: (id) => `${baseURL}/api/v1/results/${id}`,
   },
 };
