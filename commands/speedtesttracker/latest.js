@@ -11,6 +11,7 @@ const { errorSend } = require("../../functions/error");
 const { handleFailedResult } = require("../../functions/handleFailedResult");
 
 module.exports = {
+  developer: true,
   data: new SlashCommandBuilder()
     .setName("latest")
     .setDescription("Get the latest speedtest result."),

@@ -10,6 +10,7 @@ const { endpoints } = require("../../constants/endpoints");
 const { errorSend } = require("../../functions/error");
 
 module.exports = {
+  developer: true,
   data: new SlashCommandBuilder()
     .setName("stats")
     .setDescription("View overall speedtest statistics from Speedtest Tracker"),
