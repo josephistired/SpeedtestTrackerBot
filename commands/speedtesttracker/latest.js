@@ -19,6 +19,11 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction
    */
   async execute(interaction) {
+    await interaction.reply({
+      content: "Fetching latest speedtest... ⏳",
+      flags: MessageFlags.Ephemeral,
+    });
+
     const attachment = new AttachmentBuilder("assets/speedtest.png");
 
     try {
@@ -88,10 +93,10 @@ module.exports = {
         .setURL(data.data.result.url)
         .setFooter({ text: `Speedtest ID: ${data.id}` });
 
-      interaction.reply({
+      return interaction.editReply({
+        content: "",
         embeds: [embed],
         files: [attachment],
-        flags: MessageFlags.Ephemeral,
       });
     } catch (err) {
       return errorSend(
