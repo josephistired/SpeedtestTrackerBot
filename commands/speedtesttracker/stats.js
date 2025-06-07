@@ -18,6 +18,11 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction
    */
   async execute(interaction) {
+    await interaction.reply({
+      content: "Fetching speedtest stats... ⏳",
+      flags: MessageFlags.Ephemeral,
+    });
+
     const attachment = new AttachmentBuilder("assets/stats.png");
 
     try {
@@ -27,6 +32,7 @@ module.exports = {
         .set("Accept", "application/json");
 
       const data = response.body?.data;
+
       if (!data) {
         return errorSend(
           {
@@ -64,10 +70,10 @@ module.exports = {
           }
         );
 
-      interaction.reply({
+      return interaction.editReply({
+        content: "",
         embeds: [embed],
         files: [attachment],
-        flags: MessageFlags.Ephemeral,
       });
     } catch (err) {
       return errorSend(

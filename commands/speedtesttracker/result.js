@@ -27,6 +27,12 @@ module.exports = {
    */
   async execute(interaction) {
     const result_ID = interaction.options.getString("id");
+
+    await interaction.reply({
+      content: `Fetching result for ID: ${result_ID} ⏳`,
+      flags: MessageFlags.Ephemeral,
+    });
+
     const attachment = new AttachmentBuilder("assets/speedtest.png");
 
     try {
@@ -35,7 +41,19 @@ module.exports = {
         .set("Authorization", `Bearer ${process.env.API_TOKEN}`)
         .set("Accept", "application/json");
 
-      const data = response.body.data;
+      const data = response.body?.data;
+
+      if (!data) {
+        return errorSend(
+          {
+            user: `${interaction.user.tag}`,
+            command: `${interaction.commandName}`,
+            time: `${Math.floor(Date.now() / 1000)}`,
+            error: `No speedtest data found in response.`,
+          },
+          interaction
+        );
+      }
 
       if (data.status === "failed") {
         return handleFailedResult(data, interaction);
@@ -85,10 +103,10 @@ module.exports = {
         .setFooter({ text: `Speedtest ID: ${data.id}` })
         .setURL(data.data?.result?.url);
 
-      return interaction.reply({
+      return interaction.editReply({
+        content: "",
         embeds: [embed],
         files: [attachment],
-        flags: MessageFlags.Ephemeral,
       });
     } catch (err) {
       if (err.status === 404) {
