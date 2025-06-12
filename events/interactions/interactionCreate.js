@@ -27,7 +27,7 @@ module.exports = {
       );
     }
 
-    if (command.developer && interaction.user.id !== process.env.DEVELOPERID)
+    if (command.developer && interaction.user.id !== process.env.DISCORD_ID)
       errorsArray.push(
         "Sorry, this command is only available to the person who set up this bot. Maybe you can convince them to run it for you!"
       );

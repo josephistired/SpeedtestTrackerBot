@@ -11,6 +11,7 @@ const { errorSend } = require("../../functions/error");
 const { handleFailedResult } = require("../../functions/handleFailedResult");
 
 module.exports = {
+  developer: true,
   data: new SlashCommandBuilder()
     .setName("run")
     .setDescription("Runs a speedtest"),
