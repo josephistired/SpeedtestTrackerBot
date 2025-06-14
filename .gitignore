@@ -1,5 +1,2 @@
 node_modules/
 .env
-dockerdeploy.bat
-.example.data
-/commands/speedtesttracker/servers.js

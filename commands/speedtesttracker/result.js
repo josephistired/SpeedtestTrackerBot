@@ -8,7 +8,15 @@ const {
 const superagent = require("superagent");
 const { endpoints } = require("../../constants/endpoints");
 const { errorSend } = require("../../functions/error");
-const { handleFailedResult } = require("../../functions/handleFailedResult");
+const {
+  handleFailedResultResponse,
+} = require("../../functions/handleFailedResultResponse");
+const {
+  handleUnauthenticatedResponse,
+} = require("../../functions/handleUnauthenticatedResponse");
+const {
+  handleNotFoundResponse,
+} = require("../../functions/handleNotFoundResponse");
 
 module.exports = {
   developer: true,
@@ -21,7 +29,6 @@ module.exports = {
         .setDescription("Provide the ID of the speedtest result")
         .setRequired(true)
     ),
-
   /**
    * @param {ChatInputCommandInteraction} interaction
    */
@@ -43,20 +50,8 @@ module.exports = {
 
       const data = response.body?.data;
 
-      if (!data) {
-        return errorSend(
-          {
-            user: `${interaction.user.tag}`,
-            command: `${interaction.commandName}`,
-            time: `${Math.floor(Date.now() / 1000)}`,
-            error: `No speedtest data found in response.`,
-          },
-          interaction
-        );
-      }
-
       if (data.status === "failed") {
-        return handleFailedResult(data, interaction);
+        return handleFailedResultResponse(data, interaction);
       }
 
       const embed = new EmbedBuilder()
@@ -109,16 +104,12 @@ module.exports = {
         files: [attachment],
       });
     } catch (err) {
-      if (err.status === 404) {
-        return errorSend(
-          {
-            user: `${interaction.user.tag}`,
-            command: `${interaction.commandName}`,
-            time: `${Math.floor(Date.now() / 1000)}`,
-            error: `No result found for ID: ${result_ID}`,
-          },
-          interaction
-        );
+      if (err.status === 401 || err.response?.status === 401) {
+        return handleUnauthenticatedResponse(interaction);
+      }
+
+      if (err.status === 404 || err.response?.status === 404) {
+        return handleNotFoundResponse(interaction);
       }
 
       return errorSend(

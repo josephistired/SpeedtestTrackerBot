@@ -20,11 +20,18 @@ async function errorSend({ user, command, time, error }, interaction) {
     .setFooter({ text: " 🚫 Error Ocurred" })
     .setTimestamp();
 
-  await interaction.reply({
-    embeds: [errorEmbed],
-    files: [attachment],
-    flags: MessageFlags.Ephemeral
-  });
+  if (interaction.deferred || interaction.replied) {
+    return interaction.editReply({
+      embeds: [errorEmbed],
+      files: [attachment],
+    });
+  } else {
+    return interaction.reply({
+      embeds: [errorEmbed],
+      files: [attachment],
+      flags: MessageFlags.Ephemeral,
+    });
+  }
 }
 
 module.exports = { errorSend };

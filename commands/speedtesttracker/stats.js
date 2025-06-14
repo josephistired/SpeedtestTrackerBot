@@ -8,6 +8,12 @@ const {
 const superagent = require("superagent");
 const { endpoints } = require("../../constants/endpoints");
 const { errorSend } = require("../../functions/error");
+const {
+  handleUnauthenticatedResponse,
+} = require("../../functions/handleUnauthenticatedResponse");
+const {
+  handleForbiddenResponse,
+} = require("../../functions/handleForbiddenResponse");
 
 module.exports = {
   developer: true,
@@ -32,12 +38,11 @@ module.exports = {
         .set("Accept", "application/json");
 
       const data = response.body?.data;
-
       if (!data) {
         return errorSend(
           {
-            user: `${interaction.user.tag}`,
-            command: `${interaction.commandName}`,
+            user: interaction.user.tag,
+            command: interaction.commandName,
             time: `${Math.floor(Date.now() / 1000)}`,
             error: "No data received from the /stats endpoint.",
           },
@@ -76,12 +81,20 @@ module.exports = {
         files: [attachment],
       });
     } catch (err) {
+      if (err.status === 401 || err.response?.status === 401) {
+        return handleUnauthenticatedResponse(interaction);
+      }
+
+      if (err.status === 422 || err.response?.status === 422) {
+        return handleValidationResponse(interaction);
+      }
+
       return errorSend(
         {
-          user: `${interaction.user.tag}`,
-          command: `${interaction.commandName}`,
+          user: interaction.user.tag,
+          command: interaction.commandName,
           time: `${Math.floor(Date.now() / 1000)}`,
-          error: `${err.message}`,
+          error: err.message,
         },
         interaction
       );
