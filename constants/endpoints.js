@@ -7,6 +7,6 @@ module.exports = {
     // getResults: () => `${baseURL}/api/v1/results`,
     getResultById: (id) => `${baseURL}/api/v1/results/${id}`,
     runSpeedTest: () => `${baseURL}/api/v1/speedtests/run`,
-    // getServers: () => `${baseURL}/api/v1/`
+    getServers: () => `${baseURL}/api/v1/ookla/list-servers`
   },
 };

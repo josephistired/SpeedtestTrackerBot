@@ -1,6 +1,10 @@
 const { EmbedBuilder, AttachmentBuilder, MessageFlags } = require("discord.js");
 
-function handleFailedResult(data, interaction, image = "assets/speedtest.png") {
+function handleFailedResultResponse(
+  data,
+  interaction,
+  image = "assets/speedtest.png"
+) {
   const attachment = new AttachmentBuilder(image);
 
   const embed = new EmbedBuilder()
@@ -29,11 +33,19 @@ function handleFailedResult(data, interaction, image = "assets/speedtest.png") {
     )
     .setFooter({ text: `Speedtest ID: ${data.id}` });
 
-  return interaction.reply({
-    embeds: [embed],
-    files: [attachment],
-    flags: MessageFlags.Ephemeral,
-  });
+  if (interaction.deferred || interaction.replied) {
+    return interaction.editReply({
+      content: "",
+      embeds: [embed],
+      files: [attachment],
+    });
+  } else {
+    return interaction.reply({
+      embeds: [embed],
+      files: [attachment],
+      flags: MessageFlags.Ephemeral,
+    });
+  }
 }
 
-module.exports = { handleFailedResult };
+module.exports = { handleFailedResultResponse };

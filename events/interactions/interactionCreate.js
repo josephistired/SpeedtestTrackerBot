@@ -21,9 +21,13 @@ module.exports = {
     const sent = parseInt(interaction.createdAt.getTime() / 1000, 10);
     const errorsArray = [];
 
-    if (!process.env.SERVER_IP || !process.env.SERVER_PORT) {
+    if (
+      !process.env.SERVER_IP ||
+      !process.env.SERVER_PORT ||
+      !process.env.API_TOKEN
+    ) {
       errorsArray.push(
-        "Server IP or Port not loaded. Please check your .env file."
+        "Server IP or Port or API Key not loaded. Please check your .env file."
       );
     }
 
