@@ -37,7 +37,7 @@
   "dependencies": {
     "ascii-table": "^0.0.9",
     "discord.js": "^14.19.3",
-    "dotenv": "^16.5.0",
+    "dotenv": "^17.2.3",
     "pagination.djs": "^4.0.18",
     "superagent": "^10.2.1"
   }
