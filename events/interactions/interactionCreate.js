@@ -3,6 +3,7 @@ const {
   PermissionFlagsBits,
   Collection,
   MessageFlags,
+  PermissionsBitField,
 } = require("discord.js");
 
 const { errorSend } = require("../../functions/error");
@@ -45,7 +46,11 @@ module.exports = {
     const timestamps = cooldowns.get(command.name);
     const cooldownAmount = process.env.COMMAND_COOLDOWN * 1000 || 3 * 1000;
 
-    if (interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+    const memberPermissions = interaction.member 
+      ? new PermissionsBitField(BigInt(interaction.member.permissions))
+      : null;
+
+    if (memberPermissions && memberPermissions.has(PermissionFlagsBits.Administrator)) {
       timestamps.set(interaction.user.id, now);
       setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
     } else {
