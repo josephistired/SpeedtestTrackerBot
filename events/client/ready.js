@@ -1,7 +1,7 @@
 const { loadCommands } = require("../../utils/commandLoader");
 
 module.exports = {
-  name: "ready",
+  name: "clientReady",
   once: true,
   async execute(client) {
     await loadCommands(client);

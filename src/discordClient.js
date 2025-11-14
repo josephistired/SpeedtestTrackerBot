@@ -1,8 +1,11 @@
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
-const { Guilds, GuildMessages } = GatewayIntentBits;
 
 const client = new Client({
-  intents: Guilds | GuildMessages,
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMembers  // Required for permissions
+  ]
 });
 
 module.exports = client;

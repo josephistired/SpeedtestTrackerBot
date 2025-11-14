@@ -42,11 +42,20 @@ module.exports = {
 
       const fields = Object.entries(servers)
         .slice(0, 25)
-        .map(([id, name]) => ({
-          name: `ID: ${id}`,
-          value: `Details: ${name}`,
-          inline: false,
-        }));
+        .map(([id, server]) => {
+          let details;
+          if (typeof server === 'object' && server !== null) {
+            details = `Name: ${server.name || 'N/A'}\nLocation: ${server.location || server.country || 'N/A'}\nHost: ${server.host || 'N/A'}`;
+          } else {
+            details = String(server);
+          }
+
+          return {
+            name: `ID: ${id}`,
+            value: details || 'No details available',
+            inline: false,
+          };
+        });
 
       const embed = new EmbedBuilder()
         .setTitle("Available Ookla Speedtest Servers")
