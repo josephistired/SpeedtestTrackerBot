@@ -39,6 +39,6 @@
     "discord.js": "^14.24.2",
     "dotenv": "^17.2.3",
     "pagination.djs": "^4.0.18",
-    "superagent": "^10.2.3"
+    "superagent": "^10.3.0"
   }
 }
